@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            <h1>HELLO WORLD</h1>
+        {% endblock %}
+        {% block javascripts %}{% endblock %}
+        {% block moviesList %}
+            <ul>
+                {% for movie in movies %}
+                    <li>{{ movie.title|e }}</li>
+                {% endfor %}
+            </ul>
+        {% endblock %}
+        {% block personList %}
+            <ul>
+                {% for person in persons %}
+                    <li>{{ person.firstname|e }}</li>
+                {% endfor %}
+            </ul>
+        {% endblock %}
+    </body>
+</html>
