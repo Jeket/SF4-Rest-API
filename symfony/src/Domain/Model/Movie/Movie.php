@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Model\Movie;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MovieRepository")
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\MovieRepository")
+ * @package App\Domain\Model\Movie
  */
 class Movie
 {

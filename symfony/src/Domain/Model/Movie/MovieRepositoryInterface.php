@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Repository;
-
-use App\Entity\Movie;
+namespace App\Domain\Model\Movie;
 
 /**
  * Interface MovieRepositoryInterface

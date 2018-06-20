@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Rest;
+namespace App\Infrastructure\Http\Rest\Controller;
 
-use App\Service\MovieService;
+use App\Application\Service\MovieService;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;

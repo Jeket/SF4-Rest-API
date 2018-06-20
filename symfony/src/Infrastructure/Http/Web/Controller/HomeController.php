@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\Web;
+namespace App\Infrastructure\Http\Web\Controller;
 
-use App\Service\MovieService;
-use App\Service\PersonService;
+use App\Application\Service\MovieService;
+use App\Application\Service\PersonService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

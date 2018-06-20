@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Rest;
+namespace App\Infrastructure\Http\Rest\Controller;
 
-use App\Service\PersonService;
+use App\Application\Service\PersonService;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;

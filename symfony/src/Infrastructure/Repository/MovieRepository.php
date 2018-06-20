@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Infrastructure\Repository;
 
-use App\Entity\Movie;
+use App\Domain\Model\Movie\Movie;
+use App\Domain\Model\Movie\MovieRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

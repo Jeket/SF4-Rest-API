@@ -1,8 +1,9 @@
 <?php
-namespace App\Service;
 
-use App\Entity\Person;
-use App\Repository\PersonRepositoryInterface;
+namespace App\Application\Service;
+
+use App\Domain\Model\Person\Person;
+use App\Domain\Model\Person\PersonRepositoryInterface;
 use Doctrine\ORM\EntityNotFoundException;
 
 /**

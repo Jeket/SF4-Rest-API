@@ -1,13 +1,14 @@
 <?php
-namespace App\Service;
 
-use App\Entity\Movie;
-use App\Repository\MovieRepositoryInterface;
+namespace App\Application\Service;
+
+use App\Domain\Model\Movie\Movie;
+use App\Domain\Model\Movie\MovieRepositoryInterface;
 use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * Class MovieService
- * @package App\Service
+ * @package App\Application\Service
  */
 final class MovieService
 {
