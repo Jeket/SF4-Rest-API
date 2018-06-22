@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Infrastructure\Repository\MovieRepository")
  * @package App\Domain\Model\Movie
  */
-class Movie
+final class Movie implements MovieInterface
 {
     /**
      * The unique identifier of movie entity.
@@ -71,9 +71,7 @@ class Movie
     }
 
     /**
-     * Get title of movie.
-     *
-     * @return null|string
+     * {@inheritdoc}
      */
     public function getTitle(): ?string
     {
@@ -95,9 +93,7 @@ class Movie
     }
 
     /**
-     * Get year of publication.
-     *
-     * @return int|null
+     * {@inheritdoc}
      */
     public function getYear(): ?int
     {
@@ -119,9 +115,7 @@ class Movie
     }
 
     /**
-     * Get the duration of movie.
-     *
-     * @return int|null
+     * {@inheritdoc}
      */
     public function getTime(): ?int
     {
@@ -143,9 +137,7 @@ class Movie
     }
 
     /**
-     * Get the description of movie.
-     *
-     * @return null|string
+     * {@inheritdoc}
      */
     public function getDescription(): ?string
     {

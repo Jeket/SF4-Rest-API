@@ -2,32 +2,41 @@
 
 namespace App\Application\DTO;
 
+use App\Domain\Model\Movie\MovieInterface;
 use JMS\Serializer\Annotation\Type;
 
 /**
  * Movie Data Transfer Object.
  */
-final class MovieDTO
+final class MovieDTO implements MovieInterface
 {
     /**
+     * The title of movie.
+     *
      * @var string
      * @Type("string")
      */
     private $title;
 
     /**
+     * The year of publication of movie.
+     *
      * @var int
      * @Type("int")
      */
     private $year;
 
     /**
+     * The duration of movie.
+     *
      * @var int
      * @Type("int")
      */
     private $time;
 
     /**
+     * The description of movie.
+     *
      * @var string
      * @Type("string")
      */
@@ -50,7 +59,7 @@ final class MovieDTO
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getTitle(): string
     {
@@ -58,7 +67,7 @@ final class MovieDTO
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getYear(): int
     {
@@ -66,7 +75,7 @@ final class MovieDTO
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getTime(): int
     {
@@ -74,7 +83,7 @@ final class MovieDTO
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getDescription(): string
     {

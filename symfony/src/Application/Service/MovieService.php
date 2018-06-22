@@ -61,7 +61,7 @@ final class MovieService
      */
     public function addMovie(MovieDTO $movieDTO): Movie
     {
-        $movie = $this->setMovieField(new Movie(), $movieDTO);
+        $movie = $this->setMovieFields(new Movie(), $movieDTO);
         $this->movieRepository->save($movie);
 
         return $movie;
@@ -81,7 +81,7 @@ final class MovieService
             throw new EntityNotFoundException(sprintf(self::MOVIE_NOT_FOUND, $movieId));
         }
 
-        $movie = $this->setMovieField($movie, $movieDTO);
+        $movie = $this->setMovieFields($movie, $movieDTO);
         $this->movieRepository->save($movie);
 
         return $movie;
@@ -110,7 +110,7 @@ final class MovieService
      * @return \App\Domain\Model\Movie\Movie
      * @TODO Use Assembler instead of that method.
      */
-    private function setMovieField(Movie $movie, MovieDTO $movieDTO)
+    private function setMovieFields(Movie $movie, MovieDTO $movieDTO)
     {
         $movie
           ->setTitle($movieDTO->getTitle())
