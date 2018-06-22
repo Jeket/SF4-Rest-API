@@ -2,8 +2,10 @@
 
 namespace App\Application\Service;
 
+use App\Application\DTO\MovieDTO;
 use App\Domain\Model\Movie\Movie;
 use App\Domain\Model\Movie\MovieRepositoryInterface;
+use App\Infrastructure\Repository\MovieRepository;
 use Doctrine\ORM\EntityNotFoundException;
 
 /**
@@ -16,7 +18,7 @@ final class MovieService
     const MOVIE_NOT_FOUND = "Movie with id %u does not exist!";
 
     /**
-     * @var MovieRepositoryInterface
+     * @var MovieRepository
      */
     private $movieRepository;
 
@@ -53,43 +55,33 @@ final class MovieService
     }
 
     /**
-     * @param array $movieData (You can also use DTO).
+     * @param MovieDTO $movieDTO (You can also use DTO).
+     *
      * @return Movie
      */
-    public function addMovie(array $movieData): Movie
+    public function addMovie(MovieDTO $movieDTO): Movie
     {
-        $movie = new Movie();
-        $movie
-          ->setTitle($movieData['title'])
-          ->setYear($movieData['year'])
-          ->setTime($movieData['time'])
-          ->setDescription($movieData['description']);
-
+        $movie = $this->setMovieField(new Movie(), $movieDTO);
         $this->movieRepository->save($movie);
 
         return $movie;
     }
 
     /**
-     * @param int   $movieId
-     * @param array $movieData
+     * @param int      $movieId
+     * @param MovieDTO $movieDTO
      *
      * @return Movie
-     * @throws EntityNotFoundException
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
-    public function updateArticle(int $movieId, array $movieData): Movie
+    public function updateArticle(int $movieId, MovieDTO $movieDTO): Movie
     {
         $movie = $this->movieRepository->findById($movieId);
         if (!$movie) {
             throw new EntityNotFoundException(sprintf(self::MOVIE_NOT_FOUND, $movieId));
         }
 
-        $movie
-          ->setTitle($movieData['title'])
-          ->setYear($movieData['year'])
-          ->setTime($movieData['time'])
-          ->setDescription($movieData['description']);
-
+        $movie = $this->setMovieField($movie, $movieDTO);
         $this->movieRepository->save($movie);
 
         return $movie;
@@ -107,5 +99,25 @@ final class MovieService
         }
 
         $this->movieRepository->delete($movie);
+    }
+
+    /**
+     * Set the data for given Movie entity.
+     *
+     * @param Movie $movie
+     * @param MovieDTO $movieDTO
+     *
+     * @return \App\Domain\Model\Movie\Movie
+     * @TODO Use Assembler instead of that method.
+     */
+    private function setMovieField(Movie $movie, MovieDTO $movieDTO)
+    {
+        $movie
+          ->setTitle($movieDTO->getTitle())
+          ->setYear($movieDTO->getYear())
+          ->setTime($movieDTO->getTime())
+          ->setDescription($movieDTO->getDescription());
+
+        return $movie;
     }
 }

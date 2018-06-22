@@ -12,49 +12,81 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Movie
 {
     /**
+     * The unique identifier of movie entity.
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @var integer
      */
     private $id;
 
     /**
+     * The title of movie.
+     *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
+     * @var string
      */
     private $title;
 
     /**
+     * The year of publication of movie.
+     *
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank()
      * @Assert\Range(min=1888, max=2025)
+     * @var integer
      */
     private $year;
 
     /**
+     * The duration of movie.
+     *
      * @ORM\Column(type="smallint")
      * @Assert\NotBlank()
      * @Assert\Range(min=30, max=300)
+     * @var integer
      */
     private $time;
 
     /**
+     * The description of movie.
+     *
      * @ORM\Column(type="text", nullable=true)
      * @Assert\NotBlank()
+     * @var string
      */
     private $description;
 
+    /**
+     * Get unique identifier of movie resource.
+     *
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * Get title of movie.
+     *
+     * @return null|string
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * Set the title of movie.
+     *
+     * @param string $title
+     *
+     * @return Movie
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -62,11 +94,23 @@ class Movie
         return $this;
     }
 
+    /**
+     * Get year of publication.
+     *
+     * @return int|null
+     */
     public function getYear(): ?int
     {
         return $this->year;
     }
 
+    /**
+     * Set year of publication.
+     *
+     * @param int $year The year of publication of this movie.
+     *
+     * @return Movie
+     */
     public function setYear(int $year): self
     {
         $this->year = $year;
@@ -74,11 +118,23 @@ class Movie
         return $this;
     }
 
+    /**
+     * Get the duration of movie.
+     *
+     * @return int|null
+     */
     public function getTime(): ?int
     {
         return $this->time;
     }
 
+    /**
+     * Set the duration of movie.
+     *
+     * @param int $time The duration of movie.
+     *
+     * @return Movie
+     */
     public function setTime(int $time): self
     {
         $this->time = $time;
@@ -86,11 +142,23 @@ class Movie
         return $this;
     }
 
+    /**
+     * Get the description of movie.
+     *
+     * @return null|string
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * Set the description of movie.
+     *
+     * @param null|string $description The description of movie.
+     *
+     * @return Movie
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;

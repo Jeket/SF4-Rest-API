@@ -2,12 +2,13 @@
 
 namespace App\Infrastructure\Http\Rest\Controller;
 
+use App\Application\DTO\MovieDTO;
 use App\Application\Service\MovieService;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\Annotations as FOSRest;
 
 /**
@@ -17,6 +18,8 @@ final class MovieController extends FOSRestController
 {
 
     /**
+     * The movie service.
+     *
      * @var MovieService
      */
     private $movieService;
@@ -77,24 +80,35 @@ final class MovieController extends FOSRestController
     }
 
     /**
+     * Replaces Movie resource.
+     *
+     * @FOSRest\Put("/movies/{movieId}")
+     * @ParamConverter("movieDTO", converter="fos_rest.request_body")
+     * @param int $movieId
+     * @param MovieDTO $movieDTO
+     *
+     * @return View
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     */
+    public function putMovie(int $movieId, MovieDTO $movieDTO): View
+    {
+        $article = $this->movieService->updateArticle($movieId, $movieDTO);
+
+        return View::create($article, Response::HTTP_OK);
+    }
+
+    /**
      * Create Movie.
      *
      * @FOSRest\Post("/movies")
-     * @param Request $request A Request instances
+     * @ParamConverter("movieDTO", converter="fos_rest.request_body")
+     * @param MovieDTO $movieDTO
      *
      * @return \FOS\RestBundle\View\View
      */
-    public function postMovie(Request $request): View
+    public function postMovie(MovieDTO $movieDTO): View
     {
-        // ASSEMBLER + DTO For more complex actions.
-        $movieData = [
-          'title' => $request->get('title'),
-          'year' => $request->get('year'),
-          'time' => $request->get('time'),
-          'description' => $request->get('description'),
-        ];
-
-        $movie = $this->movieService->addMovie($movieData);
+        $movie = $this->movieService->addMovie($movieDTO);
 
         if (null === $movie) {
             return $this->view($movie, Response::HTTP_NOT_FOUND, []);
