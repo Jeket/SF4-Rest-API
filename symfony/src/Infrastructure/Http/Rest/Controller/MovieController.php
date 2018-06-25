@@ -9,7 +9,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use FOS\RestBundle\Controller\Annotations as FOSRest;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
  * Brand controller.
@@ -37,8 +37,9 @@ final class MovieController extends FOSRestController
     /**
      * Lists all Movies.
      *
-     * @FOSRest\Get("/movies")
-     * @return \FOS\RestBundle\View\View
+     * @Rest\Get("/movies")
+     *
+     * @return View The response.
      */
     public function getMovies(): View
     {
@@ -50,10 +51,10 @@ final class MovieController extends FOSRestController
     /**
      * Return One Movie from ID.
      *
-     * @FOSRest\Get("/movies/{movieId}")
+     * @Rest\Get("/movies/{movieId}")
      * @param int $movieId The movie id.
      *
-     * @return \FOS\RestBundle\View\View
+     * @return View        The response.
      * @throws EntityNotFoundException
      */
     public function getMovie(int $movieId): View
@@ -66,10 +67,10 @@ final class MovieController extends FOSRestController
     /**
      * Delete Movie.
      *
-     * @FOSRest\Delete("/movies/{movieId}")
+     * @Rest\Delete("/movies/{movieId}")
      * @param int $movieId The movie id.
      *
-     * @return \FOS\RestBundle\View\View
+     * @return View        The response.
      * @throws EntityNotFoundException
      */
     public function deleteMovie(int $movieId): View
@@ -82,12 +83,12 @@ final class MovieController extends FOSRestController
     /**
      * Replaces Movie resource.
      *
-     * @FOSRest\Put("/movies/{movieId}")
+     * @Rest\Put("/movies/{movieId}")
      * @ParamConverter("movieDTO", converter="fos_rest.request_body")
-     * @param int $movieId
-     * @param MovieDTO $movieDTO
+     * @param int      $movieId  The movie id.
+     * @param MovieDTO $movieDTO The move DTO object.
      *
-     * @return View
+     * @return View              The response.
      * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function putMovie(int $movieId, MovieDTO $movieDTO): View
@@ -100,11 +101,11 @@ final class MovieController extends FOSRestController
     /**
      * Create Movie.
      *
-     * @FOSRest\Post("/movies")
+     * @Rest\Post("/movies")
      * @ParamConverter("movieDTO", converter="fos_rest.request_body")
-     * @param MovieDTO $movieDTO
+     * @param MovieDTO $movieDTO The move DTO object.
      *
-     * @return \FOS\RestBundle\View\View
+     * @return View              The response.
      */
     public function postMovie(MovieDTO $movieDTO): View
     {

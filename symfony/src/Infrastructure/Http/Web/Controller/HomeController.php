@@ -37,6 +37,8 @@ final class HomeController extends AbstractController
     }
 
     /**
+     * A web default endpoint to show movies and persons available from API.
+     *
      * @Route("/", name="homepage")
      *
      * @return Response
@@ -57,7 +59,7 @@ final class HomeController extends AbstractController
      *
      * @return array|null
      */
-    private function getAllMovies()
+    private function getAllMovies(): ?array
     {
         return $this->movieService->getAllMovies();
     }
@@ -67,7 +69,7 @@ final class HomeController extends AbstractController
      *
      * @return array|null
      */
-    private function getAllPersons()
+    private function getAllPersons(): ?array
     {
         return $this->personService->getAllPersons();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Application\Assembler\MovieAssembler;
 use App\Application\DTO\MovieDTO;
 use App\Domain\Model\Movie\Movie;
 use App\Domain\Model\Movie\MovieRepositoryInterface;
@@ -18,22 +19,37 @@ final class MovieService
     const MOVIE_NOT_FOUND = "Movie with id %u does not exist!";
 
     /**
+     * The Movie entity repository service.
+     *
      * @var MovieRepository
      */
     private $movieRepository;
 
     /**
-     * MovieService constructor.
-     * @param MovieRepositoryInterface $movieRepository
+     * The Movie assembler service.
+     *
+     * @var MovieAssembler
      */
-    public function __construct(MovieRepositoryInterface $movieRepository)
+    private $movieAssembler;
+
+    /**
+     * MovieService constructor.
+     *
+     * @param MovieRepositoryInterface $movieRepository The Movie entity repository class.
+     * @param MovieAssembler           $movieAssembler  The Movie assembler service.
+     */
+    public function __construct(MovieRepositoryInterface $movieRepository, MovieAssembler $movieAssembler)
     {
         $this->movieRepository = $movieRepository;
+        $this->movieAssembler = $movieAssembler;
     }
 
     /**
-     * @param int $movieId
-     * @return Movie
+     * Find a movie entity for given movieId.
+     *
+     * @param int $movieId The movie Id.
+     *
+     * @return Movie       The movie entity object.
      * @throws EntityNotFoundException
      */
     public function getMovie(int $movieId): Movie
@@ -47,7 +63,9 @@ final class MovieService
     }
 
     /**
-     * @return array|null
+     * Get all movies found from base.
+     *
+     * @return array|null An array of movie object or empty array.
      */
     public function getAllMovies(): ?array
     {
@@ -55,23 +73,27 @@ final class MovieService
     }
 
     /**
-     * @param MovieDTO $movieDTO (You can also use DTO).
+     * Add one movie from given movie DTO object.
      *
-     * @return Movie
+     * @param MovieDTO $movieDTO The movie DTO object.
+     *
+     * @return Movie             The movie entity created from DTO object.
      */
     public function addMovie(MovieDTO $movieDTO): Movie
     {
-        $movie = $this->setMovieFields(new Movie(), $movieDTO);
+        $movie = $this->movieAssembler->createMovie($movieDTO);
         $this->movieRepository->save($movie);
 
         return $movie;
     }
 
     /**
-     * @param int      $movieId
-     * @param MovieDTO $movieDTO
+     * Update one movie from movie DTO object.
      *
-     * @return Movie
+     * @param int      $movieId  The movie id to update.
+     * @param MovieDTO $movieDTO The movie DTO object.
+     *
+     * @return Movie             The movie entity updated.
      * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function updateArticle(int $movieId, MovieDTO $movieDTO): Movie
@@ -81,14 +103,16 @@ final class MovieService
             throw new EntityNotFoundException(sprintf(self::MOVIE_NOT_FOUND, $movieId));
         }
 
-        $movie = $this->setMovieFields($movie, $movieDTO);
+        $movie = $this->movieAssembler->updateMovie($movie, $movieDTO);
         $this->movieRepository->save($movie);
 
         return $movie;
     }
 
     /**
-     * @param int $movieId
+     * Delete one movie entity.
+     *
+     * @param int $movieId The Id of movie to delete.
      * @throws EntityNotFoundException
      */
     public function deleteMovie(int $movieId): void
@@ -99,25 +123,5 @@ final class MovieService
         }
 
         $this->movieRepository->delete($movie);
-    }
-
-    /**
-     * Set the data for given Movie entity.
-     *
-     * @param Movie $movie
-     * @param MovieDTO $movieDTO
-     *
-     * @return \App\Domain\Model\Movie\Movie
-     * @TODO Use Assembler instead of that method.
-     */
-    private function setMovieFields(Movie $movie, MovieDTO $movieDTO)
-    {
-        $movie
-          ->setTitle($movieDTO->getTitle())
-          ->setYear($movieDTO->getYear())
-          ->setTime($movieDTO->getTime())
-          ->setDescription($movieDTO->getDescription());
-
-        return $movie;
     }
 }

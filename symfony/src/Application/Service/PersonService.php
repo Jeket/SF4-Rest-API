@@ -2,8 +2,11 @@
 
 namespace App\Application\Service;
 
+use App\Application\Assembler\PersonAssembler;
+use App\Application\DTO\PersonDTO;
 use App\Domain\Model\Person\Person;
 use App\Domain\Model\Person\PersonRepositoryInterface;
+use App\Infrastructure\Repository\PersonRepository;
 use Doctrine\ORM\EntityNotFoundException;
 
 /**
@@ -16,24 +19,37 @@ final class PersonService
     const PERSON_NOT_FOUND = "Person with id %u does not exist!";
 
     /**
-     * @var PersonRepositoryInterface
+     * The Person entity repository service.
+     *
+     * @var PersonRepository
      */
     private $personRepository;
 
     /**
+     * The Person assembler service.
+     *
+     * @var PersonAssembler
+     */
+    private $personAssembler;
+
+    /**
      * MovieService constructor.
      *
-     * @param PersonRepositoryInterface $personRepository
+     * @param PersonRepositoryInterface $personRepository The Person entity repository class.
+     * @param PersonAssembler           $personAssembler  The Person assembler service.
      */
-    public function __construct(PersonRepositoryInterface $personRepository)
+    public function __construct(PersonRepositoryInterface $personRepository, PersonAssembler $personAssembler)
     {
         $this->personRepository = $personRepository;
+        $this->personAssembler = $personAssembler;
     }
 
     /**
-     * @param int $personId
+     * Find a Person entity for given movieId.
      *
-     * @return Person
+     * @param int $personId The person Id.
+     *
+     * @return Person       The person entity object.
      * @throws EntityNotFoundException
      */
     public function getPerson(int $personId): Person
@@ -47,7 +63,9 @@ final class PersonService
     }
 
     /**
-     * @return array|null
+     * Get all person found from base.
+     *
+     * @return array|null An array of person object or empty array.
      */
     public function getAllPersons(): ?array
     {
@@ -55,51 +73,49 @@ final class PersonService
     }
 
     /**
-     * @param array $personData (You can also use DTO).
-     * @return Person
+     * Add one person from given person DTO object.
+     *
+     * @param PersonDTO $personDTO The movie DTO object.
+     *
+     * @return Person              The person entity created from DTO object.
      */
-    public function addPerson(array $personData): Person
+    public function addPerson(PersonDTO $personDTO): Person
     {
-        $person = new Person();
-        $person
-          ->setFirstName($personData['firstname'])
-          ->setLastName($personData['lastname'])
-          ->setBirthday($personData['birthday']);
-
+        $person = $this->personAssembler->createPerson($personDTO);
         $this->personRepository->save($person);
 
         return $person;
     }
 
     /**
-     * @param int   $personId
-     * @param array $personData
+     * Update one person from person DTO object.
      *
-     * @return Person
-     * @throws EntityNotFoundException
+     * @param int       $personId  The person id to update.
+     * @param PersonDTO $personDTO The person DTO object.
+     *
+     * @return Person              The person entity updated.
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
-    public function updateArticle(int $personId, array $personData): Person
+    public function updatePerson(int $personId, PersonDTO $personDTO): Person
     {
         $person = $this->personRepository->findById($personId);
         if (!$person) {
             throw new EntityNotFoundException(sprintf(self::PERSON_NOT_FOUND, $personId));
         }
 
-        $person
-          ->setFirstName($personData['firstname'])
-          ->setLastName($personData['lastname'])
-          ->setBirthday(new \DateTime($personData['birthday']));
-
+        $person = $this->personAssembler->updatePerson($person, $personDTO);
         $this->personRepository->save($person);
 
         return $person;
     }
 
     /**
-     * @param int $personId
+     * Delete one person entity.
+     *
+     * @param int $personId The Id of person to delete.
      * @throws EntityNotFoundException
      */
-    public function deleteMovie(int $personId): void
+    public function deletePerson(int $personId): void
     {
         $person = $this->personRepository->findById($personId);
         if (!$person) {

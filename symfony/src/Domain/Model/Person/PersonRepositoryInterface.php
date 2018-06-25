@@ -9,24 +9,34 @@ namespace App\Domain\Model\Person;
 interface PersonRepositoryInterface
 {
     /**
-     * @param int $personId
-     * @return Person
+     * Find person entity by unique identifier.
+     *
+     * @param int $personId The Id of person to found.
+     *
+     * @return Person|null  The person entity found for given Id.
      */
     public function findById(int $personId): ?Person;
 
     /**
-     * @param string $firstName
-     * @return Person
+     * Find person entity by firstName field.
+     *
+     * @param string $firstName The firstName of person entity.
+     *
+     * @return Person|null      The person entity found by given name.
      */
     public function findOneByName(string $firstName): ?Person;
 
     /**
-     * @param Person $person
+     * Save given person entity with entityManager.
+     *
+     * @param Person $person The person entity to save.
      */
     public function save(Person $person): void;
 
     /**
-     * @param Person $person
+     * Delete given person entity from database.
+     *
+     * @param Person $person The person entity to delete.
      */
     public function delete(Person $person): void;
 }
