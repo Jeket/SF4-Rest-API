@@ -21,7 +21,7 @@ final class PersonService
     /**
      * The Person entity repository service.
      *
-     * @var PersonRepository
+     * @var PersonRepositoryInterface
      */
     private $personRepository;
 

@@ -29,7 +29,7 @@ final class PersonDTO implements PersonInterface
     /**
      * The birthday date of person.
      *
-     * @var string
+     * @var \DateTime
      * @Type("DateTime")
      */
     private $birthday;
@@ -67,7 +67,7 @@ final class PersonDTO implements PersonInterface
     /**
      * {@inheritdoc}
      */
-    public function getBirthday(): ?\DateTimeInterface
+    public function getBirthday(): \DateTimeInterface
     {
         if (null === $this->birthday) {
             $this->birthday = new \DateTime('now');

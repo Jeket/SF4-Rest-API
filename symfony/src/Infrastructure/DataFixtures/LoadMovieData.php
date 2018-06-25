@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\DataFixtures;
 
+use App\Application\DTO\MovieDTO;
 use App\Application\Service\MovieService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -53,8 +54,10 @@ class LoadMovieData extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < count($this->movieDatas); $i++) {
-            $this->movieService->addMovie($this->movieDatas[$i]);
+        for ($i = 0, $c = count($this->movieDatas); $i < $c; $i++) {
+            $data = $this->movieDatas[$i];
+            $movieDTO = new MovieDTO($data['title'], $data['year'], $data['time'], $data['description']);
+            $this->movieService->addMovie($movieDTO);
         }
     }
 }

@@ -21,7 +21,7 @@ final class MovieService
     /**
      * The Movie entity repository service.
      *
-     * @var MovieRepository
+     * @var MovieRepositoryInterface
      */
     private $movieRepository;
 

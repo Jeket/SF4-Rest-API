@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\DataFixtures;
 
+use App\Application\DTO\PersonDTO;
 use App\Application\Service\PersonService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -51,8 +52,10 @@ class LoadPersonData extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        for ($i = 0; $i < count($this->personDatas); $i++) {
-            $this->personService->addPerson($this->personDatas[$i]);
+        for ($i = 0, $c = count($this->personDatas); $i < $c; $i++) {
+            $data = $this->personDatas[$i];
+            $personDTO = new PersonDTO($data['firstname'], $data['lastname'], $data['birthday']);
+            $this->personService->addPerson($personDTO);
         }
     }
 }
