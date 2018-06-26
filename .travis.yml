@@ -11,7 +11,7 @@ cache:
   directories:
     - $HOME/gcloud/
 env:
-  - PATH=$PATH:$HOME/gcloud/google-cloud-sdk/bin GOOGLE_APPLICATION_CREDENTIALS=$TRAVIS_BUILD_DIR/client_secrets.json
+  - PATH=$PATH:$HOME/gcloud/google-cloud-sdk/bin GOOGLE_APPLICATION_CREDENTIALS=$TRAVIS_BUILD_DIR/client_secrets.json GCLOUD_PROJECT=symfony-movie-api
 
 before_install:
   - if [ ! -d "$HOME/google-cloud-sdk" ]; then
@@ -45,5 +45,5 @@ script:
   - gcloud docker -- push gcr.io/$GCLOUD_PROJECT/php
   - gcloud docker -- push gcr.io/$GCLOUD_PROJECT/nginx
   - gcloud docker -- push gcr.io/$GCLOUD_PROJECT/varnish
-  - linux-amd64/helm del --purge symfony-4-docker-runtime-env
-  - linux-amd64/helm install helm/symfony --namespace symfony --name symfony-4-docker-runtime-env
+  - linux-amd64/helm del --purge symfony-movie-api
+  - linux-amd64/helm install helm/symfony --namespace symfony --name symfony-movie-api

@@ -4,25 +4,25 @@
 
 env: prod
 debug: '1'
-secret: ChangeMe
-corsAllowOrigin: http://example.com
+secret: woprrr
+corsAllowOrigin: http://movies-local.com
 
 php:
-  repository: gcr.io/personal-dev-environment/php
+  repository: gcr.io/symfony-movie-api/php
   tag: latest
   pullPolicy: Always
   replicaCount: 1
 
 nginx:
-  repository: gcr.io/personal-dev-environment/nginx
+  repository: gcr.io/symfony-movie-api/nginx
   tag: latest
   pullPolicy: Always
   replicaCount: 1
 
-varnish:
+varnish:s
   enabled: true
   #url: https://example.com
-  repository: gcr.io/personal-dev-environment/varnish
+  repository: gcr.io/symfony-movie-api/varnish
   tag: latest
   pullPolicy: Always
   replicaCount: 1
@@ -42,8 +42,8 @@ postgresql:
   # If bringing your own PostgreSQL, the full uri to use
   #url: pgsql://symfony:ChangeMe@example.com/symfony?serverVersion=9.6
   postgresUser: symfony
-  postgresPassword: ChangeMe
-  postgresDatabase: symfony
+  postgresPassword: symfony
+  postgresDatabase: symfonymovie
   # Persistent Volume Storage configuration.
   # ref: https://kubernetes.io/docs/user-guide/persistent-volumes
   persistence:
